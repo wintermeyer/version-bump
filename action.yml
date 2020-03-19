@@ -1,27 +1,25 @@
-name: Version Bump
-on:
-  push:
-    branches:
-      - master
-
-jobs:
-
-  publish-gpr:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v1
-                
-      - name: Setup GIT
-        run: |
-          git switch -c master
-          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
-          git config user.name "$GITHUB_ACTOR"
-          
-      - name: Update & Push
-        env:
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-        run: |
-          perl -i -pe 's/version: "\d+\.\d+\.\K(\d+)/ $1+1 /e' mix.exs
-          git add .
-          git commit -m "Automatic version number bump"
-          git push "https://$GITHUB_ACTOR:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY"
+# action.yml
+name: 'Bump Mix Version'
+description: 'Increment version and tag them'
+author: 'Stefan Wintermeyer'
+branding:
+  icon: 'git-commit'
+  color: 'red'
+inputs:
+  file_name:  # id of input
+    description: 'Name of the version file'
+    required: true
+    default: 'version'
+  tag_version: # id
+    description: 'States whether to create tag for this version or not'
+    required: false
+    default: 'false'
+outputs:
+  app_version: # id of output
+    description: 'Version from given file'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.file_name }} 
+    - ${{ inputs.tag_version }}
