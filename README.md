@@ -1,2 +1,3 @@
-# version-bump
-GitHub Action which bumps the version number.
+# Version bump
+
+GitHub Action which bumps the minor version number in `mix.exs`.
