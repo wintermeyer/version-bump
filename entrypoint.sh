@@ -27,11 +27,9 @@ fi
 echo "Git Checkout"
 
 perl -i -pe 's/version: \"\d+\.\d+\.\K(\d+)/ $1+1 /e' mix.exs
-newver=`grep "version: " mix.exs | sed "s/.*version: \"\(.*\)\",/\1/"`
 
 git add -A 
-git commit -m "Incremented to ${newver}"  -m "[skip ci]"
-([ -n "$tag_version" ] && [ "$tag_version" = "true" ]) && (git tag -a "${newver}" -m "[skip ci]") || echo "No tag created"
+git commit -m "Incremented minor version"  -m "[skip ci]"
 
 git show-ref
 echo "Git Push"
