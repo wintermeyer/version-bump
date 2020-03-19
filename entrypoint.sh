@@ -27,7 +27,7 @@ fi
 echo "Git Checkout"
 
 perl -i -pe 's/version: \"\d+\.\d+\.\K(\d+)/ $1+1 /e' mix.exs
-newver = `grep "version: " mix.exs | sed "s/.*version: \"\(.*\)\",/\1/"`
+newver=`grep "version: " mix.exs | sed "s/.*version: \"\(.*\)\",/\1/"`
 
 git add -A 
 git commit -m "Incremented to ${newver}"  -m "[skip ci]"
